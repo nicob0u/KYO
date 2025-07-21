@@ -31,10 +31,6 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
-        if (cam == null)
-        {
-            Debug.LogError("Camera component missing!");
-        }
     }
 
     void LateUpdate()
