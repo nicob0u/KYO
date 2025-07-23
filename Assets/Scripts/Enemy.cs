@@ -9,7 +9,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Diagnostics;
 
-public class Enemy : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     public Transform pointA;
     public Transform pointB;

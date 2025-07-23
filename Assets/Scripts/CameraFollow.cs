@@ -14,13 +14,12 @@ public class CameraFollow : MonoBehaviour
     public Vector2 offset
     {
         get
-        {     
+        {
             return baseOffset * facingDirection;
         }
     }
-    public float smoothTime = 0.2f;
+    public float smoothSpeed = 2f;
 
-    private Tween moveTween;
     private Camera cam;
 
     void Awake()
@@ -45,18 +44,15 @@ public class CameraFollow : MonoBehaviour
         float snappedX = Mathf.Round(desiredPosition.x / unitsPerPixel) * unitsPerPixel;
         Vector3 snappedPosition = new Vector3(snappedX, 0, desiredPosition.z);
 
-        if (moveTween != null && moveTween.IsActive())
-        {
-            moveTween.Kill();
-        }
-        moveTween = transform.DOMove(snappedPosition, smoothTime);
+
+        transform.position = Vector3.Lerp(transform.position, snappedPosition, smoothSpeed * Time.deltaTime);
 
         float hMove = playerController.horizontalMovement;
         if (hMove > 0)
             facingDirection = 1;
         else if (hMove < 0)
             facingDirection = -1;
-  
+
     }
 
 }

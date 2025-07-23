@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 6778047090182819579}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,8 +139,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1194735885
-  m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7e3a57d56cac3f143966d8b790adbf05, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -195,6 +195,7 @@ MonoBehaviour:
   edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 6778047090324481037}
   wallCheckSize: {x: 0.2, y: 0.2}
+  player: {fileID: 0}
 --- !u!50 &6778047090182819576
 Rigidbody2D:
   serializedVersion: 4
@@ -315,7 +316,7 @@ GameObject:
   - component: {fileID: 6778047090845520611}
   m_Layer: 0
   m_Name: Enemy_Slime
-  m_TagString: Untagged
+  m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -336,5 +337,5 @@ Transform:
   - {fileID: 6778047090483118049}
   - {fileID: 6778047089822363242}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
