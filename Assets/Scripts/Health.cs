@@ -9,8 +9,8 @@ public class Health : MonoBehaviour
     protected int currentHP;
     private bool isDead = false;
 
-    //public delegate void OnDamageTaken(int damage);
-    //public event OnDamageTaken onDamageTaken;
+    public delegate void OnDamageTaken(int damage);
+    public event OnDamageTaken onDamageTaken;
 
     public virtual void Start()
     {
@@ -22,12 +22,12 @@ public class Health : MonoBehaviour
     {
         if (isDead) return;
         currentHP -= damage;
-        //onDamageTaken?.Invoke(damage);
+        onDamageTaken?.Invoke(damage);
         UnityEngine.Debug.Log("Health: " + currentHP);
-        if (currentHP <= 0)
-        {
-            Die();
-        }
+        //if (currentHP <= 0)
+        //{
+        //    Die();
+        //}
 
     }
 

@@ -9,7 +9,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Diagnostics;
 
-public class EnemyMovement : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public Transform pointA;
     public Transform pointB;
@@ -31,13 +31,9 @@ public class EnemyMovement : MonoBehaviour
 
     private Transform currentTarget;
 
-    private Health playerHealth;
-    public GameObject player;
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
-
 
         ogScale = transform.localScale;
         currentTarget = pointB;
@@ -114,23 +110,7 @@ public class EnemyMovement : MonoBehaviour
             Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.collider.CompareTag("Player"))
-        {
-
-            var playerHealth = coll.gameObject.GetComponent<Health>();
-
-            if (playerHealth == null)
-            {
-                UnityEngine.Debug.LogWarning("PlayerHealth missing.");
-                return;
-            }
-            playerHealth.TakeDamage(1);
-
-
-        }
-    }
+   
 
 }
 

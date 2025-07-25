@@ -33,8 +33,17 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed = 18f;
     public float fullSpeedMultiplier = 2f;
 
+  
+    private PlayerInput playerInput;
+    private InputAction attackAction;
+
 
     private bool isGrounded;
+
+    private void Awake()
+    {
+       
+    }
 
     void Start()
     {
@@ -44,7 +53,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+      
         rb.velocity = new Vector2(horizontalMovement * moveSpeed, rb.velocity.y);
+        
 
         GroundCheck(); 
 
@@ -68,6 +79,7 @@ public class PlayerController : MonoBehaviour
         else if (horizontalMovement < 0)
         {
             FlipSprite(-Mathf.Abs(ogScale.x));
+
         }
     }
 
@@ -105,6 +117,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+ 
+
     private void GroundCheck()
     {
         bool wasGrounded = isGrounded;
@@ -130,10 +144,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+
+      
     }
 
     private void Gravity()
@@ -155,4 +171,25 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.CompareTag("Slime") || other.CompareTag("Ghost"))
+        {
+
+            var playerHealth = gameObject.GetComponent<Health>();
+
+            if (playerHealth == null)
+            {
+                UnityEngine.Debug.LogWarning("PlayerHealth missing.");
+                return;
+            }
+            playerHealth.TakeDamage(1);
+
+
+        }
+    }
+
+
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576936718107008}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 432576936773389031}
   m_Layer: 0
   m_Name: Enemy_Ghost
-  m_TagString: Ghost
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576937055757689}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,12 +169,13 @@ GameObject:
   - component: {fileID: 432576937875816993}
   - component: {fileID: 432576937875816992}
   - component: {fileID: 432576937875816999}
-  - component: {fileID: 432576937875816994}
   - component: {fileID: 432576937875817004}
   - component: {fileID: 432576937875816995}
-  m_Layer: 0
+  - component: {fileID: 2469498124868940792}
+  - component: {fileID: 8159614946050300572}
+  m_Layer: 6
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,30 +269,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &432576937875816994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 432576937875816998}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f467635b3702b744c8e53097caca7f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointA: {fileID: 432576937352225382}
-  pointB: {fileID: 432576937660786478}
-  moveDuration: 3
-  waitDuration: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  edgeCheckPoint: {fileID: 432576937055757689}
-  edgeCheckSize: {x: 0.68, y: 0.21}
-  wallCheckPoint: {fileID: 432576936718107008}
-  wallCheckSize: {x: 0.2, y: -0.31}
-  player: {fileID: 0}
 --- !u!60 &432576937875817004
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -349,7 +326,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432576937875816998}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -362,6 +339,78 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!60 &2469498124868940792
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432576937875816998}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.3470754, y: 0.43681747}
+      - {x: -0.42684132, y: 0.35172224}
+      - {x: -0.43486774, y: 0.26957875}
+      - {x: -0.33873093, y: 0.1577403}
+      - {x: -0.42029873, y: -0.067845225}
+      - {x: -0.5141047, y: -0.13855745}
+      - {x: -0.44014293, y: -0.29054368}
+      - {x: -0.2825715, y: -0.373635}
+      - {x: -0.14900382, y: -0.45011908}
+      - {x: 0.022869974, y: -0.449807}
+      - {x: 0.2734386, y: -0.32452247}
+      - {x: 0.39691272, y: -0.20207945}
+      - {x: 0.47625688, y: -0.20512478}
+      - {x: 0.47505, y: -0.12737507}
+      - {x: 0.50982213, y: -0.13392478}
+      - {x: 0.5068507, y: 0.025743604}
+      - {x: 0.45676985, y: 0.07042867}
+      - {x: 0.45335877, y: 0.1591145}
+      - {x: 0.4167035, y: 0.251539}
+      - {x: 0.32813716, y: 0.3313924}
+      - {x: 0.20814748, y: 0.41993335}
+      - {x: -0.017009169, y: 0.40999192}
+      - {x: -0.044638693, y: 0.45011902}
+  m_UseDelaunayMesh: 0
+--- !u!114 &8159614946050300572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432576937875816998}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef50af4343b57a4ea7c464ec598449b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointA: {fileID: 432576937352225382}
+  pointB: {fileID: 432576937660786478}
+  moveDuration: 3
+  waitDuration: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  edgeCheckPoint: {fileID: 432576937055757689}
+  edgeCheckSize: {x: 0.2, y: 0.2}
+  wallCheckPoint: {fileID: 432576936718107008}
+  wallCheckSize: {x: 0.2, y: 0.2}
 --- !u!1 &432576938181893545
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576938181893546}
-  - component: {fileID: 432576938181893547}
+  - component: {fileID: 8384901250897343334}
   m_Layer: 0
   m_Name: GhostRoot
   m_TagString: Untagged
@@ -395,7 +444,7 @@ Transform:
   m_Father: {fileID: 432576936773389031}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &432576938181893547
+--- !u!114 &8384901250897343334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -404,18 +453,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 432576938181893545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f467635b3702b744c8e53097caca7f87, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ef50af4343b57a4ea7c464ec598449b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointA: {fileID: 432576937352225382}
   pointB: {fileID: 432576937660786478}
-  moveDuration: 2
+  moveDuration: 3
   waitDuration: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   edgeCheckPoint: {fileID: 432576937055757689}
-  edgeCheckSize: {x: 0.68, y: 0.21}
+  edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 432576936718107008}
-  wallCheckSize: {x: 0.2, y: -0.31}
-  player: {fileID: 0}
+  wallCheckSize: {x: 0.2, y: 0.2}
