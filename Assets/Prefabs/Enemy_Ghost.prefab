@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576936773389031}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy_Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576937352225382}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432576937660786478}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 432576937875816995}
   - component: {fileID: 2469498124868940792}
   - component: {fileID: 8159614946050300572}
+  - component: {fileID: 7281750569713207632}
   m_Layer: 6
   m_Name: Ghost
   m_TagString: Ghost
@@ -411,6 +412,19 @@ MonoBehaviour:
   edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 432576936718107008}
   wallCheckSize: {x: 0.2, y: 0.2}
+--- !u!114 &7281750569713207632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432576937875816998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a76417e8497904c9135f9aa12e9efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 7281750569713207632}
 --- !u!1 &432576938181893545
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 432576938181893546}
   - component: {fileID: 8384901250897343334}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GhostRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

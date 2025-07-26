@@ -24,17 +24,17 @@ public class Health : MonoBehaviour
         currentHP -= damage;
         onDamageTaken?.Invoke(damage);
         UnityEngine.Debug.Log("Health: " + currentHP);
-        //if (currentHP <= 0)
-        //{
-        //    Die();
-        //}
+
+        if (currentHP <= 0)
+        {
+            Die();
+        }
 
     }
 
-    void Die()
+    public virtual void Die()
     {
         isDead = true;
-        UnityEngine.Debug.Log("Game over");
 
     }
 }

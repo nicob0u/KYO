@@ -16,4 +16,11 @@ public class PlayerHealth : Health
         base.TakeDamage(damage);   
     }
 
+    public override void Die()
+    {
+        base.Die();
+        UnityEngine.Debug.Log("Game over");
+
+
+    }
 }

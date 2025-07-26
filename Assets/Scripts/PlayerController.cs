@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private int jumpsRemaining;
 
     //GroundCheck
-    public Transform groundCheckPos;
+    public Transform groundCheckPoint;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.5f);
     public LayerMask groundLayer;
 
@@ -33,12 +33,16 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed = 18f;
     public float fullSpeedMultiplier = 2f;
 
-  
-    private PlayerInput playerInput;
+   //Attack
+    private PlayerInput input;
     private InputAction attackAction;
-
-
+    public Transform attackPoint;
+    public float attackRadius;
+    public LayerMask enemyLayer;
     private bool isGrounded;
+    
+
+
 
     private void Awake()
     {
@@ -47,8 +51,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        input = GetComponent<PlayerInput>();
+        attackAction = input.actions.FindAction("Attack");
+        attackAction.performed += Attack;
+
+
         jumpsRemaining = maxJumps;
         ogScale = transform.localScale;
+
     }
 
     void Update()
@@ -75,12 +85,24 @@ public class PlayerController : MonoBehaviour
         if (horizontalMovement > 0)
         {
             FlipSprite(Mathf.Abs(ogScale.x));
+
+            anim.SetBool("isWalking", true);
+
         }
         else if (horizontalMovement < 0)
         {
             FlipSprite(-Mathf.Abs(ogScale.x));
 
+            anim.SetBool("isWalking", true);
+
+
         }
+        else
+        {
+            anim.SetBool("isWalking", false);
+
+        }
+
     }
 
     private void FlipSprite(float targetXScale)
@@ -123,7 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         bool wasGrounded = isGrounded;
 
-        isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+        isGrounded = Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer);
 
         if (isGrounded)
         {
@@ -144,12 +166,49 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            
+            UnityEngine.Debug.Log("Attack!");
+            anim.SetBool("isAttacking", true);
+        }
+    }
+
+    public void AttackAtPoint()
+    {
+
+
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+
+        foreach(Collider2D enemyGameObject in enemies)
+        {
+            var enemyHealth = enemyGameObject.GetComponent<Health>();
+            enemyHealth.TakeDamage(1);
+            UnityEngine.Debug.Log("Enemy hit");
+
+        }
+
+    }
+
+    public void EndAttack()
+    {
+        anim.SetBool("isAttacking", false);
+    }
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+        Gizmos.DrawWireCube(groundCheckPoint.position, groundCheckSize);
 
-      
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+
+
+
     }
 
     private void Gravity()

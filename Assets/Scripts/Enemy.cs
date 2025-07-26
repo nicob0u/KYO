@@ -16,9 +16,11 @@ public class Enemy : MonoBehaviour
     public float moveDuration = 3f;
     public float waitDuration = 0.2f;
 
-    private Tween moveTween;
+    [HideInInspector]
+    public Tween moveTween;
     private Tween flipTween;
     private Vector3 ogScale;
+
     public LayerMask groundLayer;
 
     //GroundCheck
