@@ -14,6 +14,7 @@ public class EnemyHealth : Health
     private GameObject player;
     private Rigidbody2D rb;
     private Collider2D coll;
+    private Tween fadeTween;
 
     public bool isKnockedBack = false;
 
@@ -32,7 +33,7 @@ public class EnemyHealth : Health
         enemy = GetComponent<Enemy>();
         player = GameObject.FindWithTag("Player");
 
-       coll = GetComponent<Collider2D>();
+        coll = GetComponent<Collider2D>();
 
 
     }
@@ -88,14 +89,16 @@ public class EnemyHealth : Health
         yield return new WaitForSeconds(0.1f);
 
         rb.constraints = RigidbodyConstraints2D.None;
-        spriteRenderer.DOFade(0f, 0.4f);
+
+        fadeTween?.Kill();
+        fadeTween = spriteRenderer.DOFade(0f, 0.7f);
+
         coll.enabled = false;
 
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.7f);
 
         Destroy(gameObject);
-
     }
 
 }

@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 9143073764614997385}
   - component: {fileID: 6162910366191854965}
   - component: {fileID: 5713924579555967782}
-  - component: {fileID: 2212911434138812414}
+  - component: {fileID: 7238301881862827597}
   m_Layer: 6
   m_Name: Slime
   m_TagString: Slime
@@ -219,7 +219,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.044769287, y: 0.0033975244}
+  m_Offset: {x: 0.044769287, y: -0.12486631}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -230,7 +230,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7424469, y: 0.6818541}
+  m_Size: {x: 0.7424469, y: 0.44967997}
   m_EdgeRadius: 0
 --- !u!114 &9143073764614997385
 MonoBehaviour:
@@ -267,6 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a76417e8497904c9135f9aa12e9efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
   health: {fileID: 6162910366191854965}
   pushForce: 2
   isKnockedBack: 0
@@ -291,8 +293,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &2212911434138812414
-CapsuleCollider2D:
+--- !u!60 &7238301881862827597
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -304,9 +306,37 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.047780037, y: -0.026641726}
-  m_Size: {x: 0.75587654, y: 0.75587654}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.22140312, y: 0.32202005}
+      - {x: -0.29807281, y: 0.2269628}
+      - {x: -0.3025055, y: 0.04617369}
+      - {x: -0.27812386, y: 0.003125906}
+      - {x: -0.27768898, y: -0.013697386}
+      - {x: -0.2770176, y: -0.11883891}
+      - {x: -0.25767136, y: -0.1579932}
+      - {x: -0.2460041, y: -0.22514403}
+      - {x: -0.32809067, y: -0.27612543}
+      - {x: -0.33499908, y: -0.34437406}
+      - {x: 0.32788467, y: -0.3490125}
+      - {x: 0.38695335, y: -0.33931684}
+      - {x: 0.4264717, y: -0.28577983}
+      - {x: 0.3758278, y: -0.2060417}
+      - {x: 0.3223667, y: -0.17659998}
+      - {x: 0.38537598, y: -0.13479984}
+      - {x: 0.38030434, y: 0.11835027}
+      - {x: 0.15912056, y: 0.30872047}
+  m_UseDelaunayMesh: 0
 --- !u!1 &6778047090324481036
 GameObject:
   m_ObjectHideFlags: 0

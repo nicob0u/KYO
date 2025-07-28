@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    protected int maxHP;
-    protected int currentHP;
+    [HideInInspector]
+    public int maxHP;
+    public int currentHP;
     private bool isDead = false;
 
     public delegate void OnDamageTaken(int damage);
