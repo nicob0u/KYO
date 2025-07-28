@@ -6,11 +6,13 @@ public class DamageFeedback : MonoBehaviour
 {
     public Health health;
     public SpriteRenderer spriteRenderer;
+    private PlayerController player;
 
     public float invincibilityDuration = 2f;
     public float flickerInterval = 0.1f;
 
     bool isInvincible = false;
+
 
     void OnEnable()
     {
@@ -19,6 +21,11 @@ public class DamageFeedback : MonoBehaviour
     void OnDisable()
     {
         health.onDamageTaken -= HandleDamageTaken;
+    }
+
+    void Start()
+    {
+        player = GetComponent<PlayerController>();
     }
 
     void HandleDamageTaken(int damage)
@@ -41,6 +48,8 @@ public class DamageFeedback : MonoBehaviour
         while (elapsed < invincibilityDuration)
         {
             spriteRenderer.enabled = !spriteRenderer.enabled;
+            player.enableGroundCheck = false;
+            player.enableRoofCheck = false;
             yield return new WaitForSeconds(flickerInterval);
             elapsed += flickerInterval;
 
@@ -48,6 +57,10 @@ public class DamageFeedback : MonoBehaviour
 
         spriteRenderer.enabled = true;
         isInvincible = false;
+        player.enableGroundCheck = true;
+        player.enableRoofCheck = true;
+
+
 
         gameObject.layer = originalLayer;
     }

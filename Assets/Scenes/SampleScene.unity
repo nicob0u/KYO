@@ -17314,6 +17314,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: e8ab077e399add0479c0c496d43b8692, type: 3}
+--- !u!1 &1374973499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1374973500}
+  m_Layer: 7
+  m_Name: SpikeCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1374973500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374973499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.118, y: 0.427, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1714015879}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1382630996
 GameObject:
   m_ObjectHideFlags: 0
@@ -17479,7 +17510,7 @@ GameObject:
   - component: {fileID: 1672055778}
   m_Layer: 3
   m_Name: Obstacles
-  m_TagString: Untagged
+  m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20120,7 +20151,25 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  spikeCheck: {fileID: 1374973500}
+  spikeCheckSize: {x: 0.94, y: 0.22}
+  isTouchingRoofSpike: 0
   isAttacking: 0
+  enableGroundCheck: 1
+  enableRoofCheck: 1
+  spikeTiles:
+  - {fileID: 11400000, guid: a36350f205788e245811c25fad2fd171, type: 2}
+  - {fileID: 11400000, guid: 75358140c71133e429b1e334989a55fa, type: 2}
+  - {fileID: 11400000, guid: f7e3cc0b3bfb53f418e22538f0caedfe, type: 2}
+  - {fileID: 11400000, guid: 86d5fd512597a014ea62e54ebc4ab70e, type: 2}
+  - {fileID: 11400000, guid: 6624a8843db5f2e41a42c4b9f3087497, type: 2}
+  - {fileID: 11400000, guid: ff4bfc01f597e6646bcd424c22576dc8, type: 2}
+  - {fileID: 11400000, guid: e01ffe6376bface4cbc8d42eab89ff5d, type: 2}
+  - {fileID: 11400000, guid: 45cf39cc62d375941a4b3e755c536db3, type: 2}
+  - {fileID: 11400000, guid: 7ddc4bf31be75494eb6969eb87d5f80a, type: 2}
+  - {fileID: 11400000, guid: 5dc14b9809467764b8da8aa5aceebfda, type: 2}
+  - {fileID: 11400000, guid: ddfb8ec01fdec4e49bdcd40f6d30197c, type: 2}
+  - {fileID: 11400000, guid: b0cda0ccccd604246bbbea8320774b23, type: 2}
 --- !u!61 &1714015876
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20228,12 +20277,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714015874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.11, y: -3, z: 0}
+  m_LocalPosition: {x: -8.05, y: -3.94, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1382630997}
   - {fileID: 531772971}
+  - {fileID: 1374973500}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22278,7 +22328,7 @@ GameObject:
   - component: {fileID: 2065373017}
   - component: {fileID: 2065373016}
   - component: {fileID: 2065373015}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.Tilemaps;
+using System.Linq;
+using System.Diagnostics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 8f;
     public int maxJumps = 2;
     private int jumpsRemaining;
+    private Tween scaleYTween;
+
 
     //GroundCheck
     public Transform groundCheckPoint;
@@ -33,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed = 18f;
     public float fullSpeedMultiplier = 2f;
 
-   //Attack
+    //Attack
     private PlayerInput input;
     private InputAction attackAction;
     public Transform attackPoint;
@@ -41,9 +46,22 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayer;
     private bool isGrounded;
 
+    //Roof spike detection
+    public Transform spikeCheck;
+    public Vector2 spikeCheckSize = new Vector2(0.5f, 0.5f);
+    [SerializeField]
+    public bool isTouchingRoofSpike = false;
+
     [HideInInspector]
     public bool isAttacking = false;
- 
+    [SerializeField]
+    public bool enableGroundCheck = true;
+    public bool enableRoofCheck = true;
+
+
+    public List<TileBase> spikeTiles;
+    private Tilemap tilemap;
+
     void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -54,16 +72,17 @@ public class PlayerController : MonoBehaviour
         jumpsRemaining = maxJumps;
         ogScale = transform.localScale;
 
+        tilemap = GameObject.Find("Obstacles").GetComponent<Tilemap>();
     }
 
     void Update()
     {
-      
+
         rb.velocity = new Vector2(horizontalMovement * moveSpeed, rb.velocity.y);
-        
 
-        GroundCheck(); 
 
+        GroundCheck();
+        RoofSpikeCheck();
         Gravity();
     }
 
@@ -119,12 +138,13 @@ public class PlayerController : MonoBehaviour
 
                 anim.SetBool("isJumping", true);
 
-                transform.DOScaleY(ogScale.y * 1.2f, 0.1f)
-                         .SetEase(Ease.OutQuad)
-                         .OnComplete(() =>
-                             transform.DOScaleY(ogScale.y, 0.1f)
-                                      .SetEase(Ease.InQuad)
-                         );
+                scaleYTween?.Kill();
+                scaleYTween = transform.DOScaleY(ogScale.y * 1.2f, 0.1f)
+                       .SetEase(Ease.OutQuad)
+                       .OnComplete(() =>
+                           transform.DOScaleY(ogScale.y, 0.1f)
+                                    .SetEase(Ease.InQuad)
+                       );
             }
             else if (context.canceled)
             {
@@ -134,7 +154,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- 
+
 
     private void GroundCheck()
     {
@@ -144,23 +164,48 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            jumpsRemaining = maxJumps;
+            Vector3Int worldPos = tilemap.WorldToCell(groundCheckPoint.position);
+            TileBase tile = tilemap.GetTile(worldPos);
 
-            if (!wasGrounded)
+            if (spikeTiles.Contains(tile) && enableGroundCheck)
             {
-                anim.SetBool("isJumping", false);
-                anim.SetBool("isFalling", false);
-
-                transform.DOScaleY(ogScale.y * 0.8f, 0.05f)
-                         .SetEase(Ease.OutQuad)
-                         .OnComplete(() =>
-                             transform.DOScaleY(ogScale.y, 0.05f)
-                                      .SetEase(Ease.InQuad)
-                         );
+                var playerHealth = GetComponent<Health>();
+                playerHealth.TakeDamage(1);
             }
+
+            jumpsRemaining = maxJumps;
+        }
+
+        if (!wasGrounded && isGrounded && enableGroundCheck)
+        {
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isFalling", false);
+
+            scaleYTween?.Kill();
+            scaleYTween = transform.DOScaleY(ogScale.y * 0.8f, 0.05f)
+                      .SetEase(Ease.OutQuad)
+                      .OnComplete(() =>
+                          transform.DOScaleY(ogScale.y, 0.05f)
+                                   .SetEase(Ease.InQuad)
+                      );
         }
     }
 
+    void RoofSpikeCheck()
+    {
+        isTouchingRoofSpike = Physics2D.OverlapBox(spikeCheck.position, spikeCheckSize, 0, groundLayer);
+        Vector3Int worldPos = tilemap.WorldToCell(spikeCheck.position + Vector3.up * 0.5f);
+        TileBase tile = tilemap.GetTile(worldPos);
+    
+
+        if (tile != null && spikeTiles.Any(t => t != null && t.name == tile.name) && isTouchingRoofSpike && enableRoofCheck)
+        {
+            var playerHealth = GetComponent<Health>();
+            playerHealth.TakeDamage(1);
+        }
+
+
+    }
 
     public void Attack(InputAction.CallbackContext context)
     {
@@ -178,7 +223,7 @@ public class PlayerController : MonoBehaviour
 
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
 
-        foreach(Collider2D enemyGameObject in enemies)
+        foreach (Collider2D enemyGameObject in enemies)
         {
             var enemyHealth = enemyGameObject.GetComponent<Health>();
             enemyHealth.TakeDamage(1);
@@ -203,6 +248,8 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
 
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(spikeCheck.position, spikeCheckSize);
 
 
     }

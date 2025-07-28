@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+     
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
             rb = GetComponentInChildren<Rigidbody2D>();
