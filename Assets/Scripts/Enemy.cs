@@ -13,18 +13,15 @@ public class Enemy : MonoBehaviour
 {
     public Transform pointA;
     public Transform pointB;
-    public float moveDuration = 3f;
+    public float moveSpeed = 4f;
     public float waitDuration = 0.2f;
 
-    [HideInInspector]
-    public Tween moveTween;
-    private Tween flipTween;
     private Vector3 ogScale;
 
     public LayerMask groundLayer;
 
     //GroundCheck
-    public Transform edgeCheckPoint; 
+    public Transform edgeCheckPoint;
     public Vector2 edgeCheckSize = new Vector2(0.2f, 0.2f);
 
     //WallCheck
@@ -33,76 +30,114 @@ public class Enemy : MonoBehaviour
 
     private Transform currentTarget;
 
+    private bool isWaiting = false;
+
+    private Rigidbody2D rb;
+    private EnemyHealth enemyHealth;
+
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            rb = GetComponentInChildren<Rigidbody2D>();
+
+        enemyHealth = GetComponent<EnemyHealth>();
+        if (enemyHealth == null)
+            enemyHealth = GetComponentInChildren<EnemyHealth>();
 
         ogScale = transform.localScale;
         currentTarget = pointB;
-        MoveToPoint(currentTarget);
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (gameObject.CompareTag("Slime"))
+
+        if (!isWaiting)
         {
-            if (!IsGroundAhead())
-            {
-                SwitchTarget();
-            }
-            if (IsWallAhead())
-            {
-                SwitchTarget();
-            }
+            Patrol();
         }
-       
+
     }
 
     bool IsGroundAhead()
     {
-      return Physics2D.OverlapBox(edgeCheckPoint.position, edgeCheckSize, 0f, groundLayer);             
+        if (wallCheckPoint == null) return false;
+        return Physics2D.OverlapBox(edgeCheckPoint.position, edgeCheckSize, 0f, groundLayer);
     }
     bool IsWallAhead()
     {
+        if (edgeCheckPoint == null) return false;
         return Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, 0f, groundLayer);
-   
+
     }
 
     void SwitchTarget()
     {
-        if (moveTween != null && moveTween.IsActive())
-            moveTween.Kill();
+
 
         currentTarget = (currentTarget == pointA) ? pointB : pointA;
-        MoveToPoint(currentTarget);
     }
 
-    void MoveToPoint(Transform target)
+    void Patrol()
     {
-        if (target.position.x > transform.position.x)
-            FlipSprite(Mathf.Abs(ogScale.x));
+
+        if (enemyHealth.isKnockedBack)
+        {
+            return;
+        }
         else
-            FlipSprite(-Mathf.Abs(ogScale.x));
+        {
 
-        if (moveTween != null && moveTween.IsActive())
-            moveTween.Kill();
-        moveTween = transform.DOMoveX(target.position.x, moveDuration).SetEase(Ease.Linear)
-            .OnComplete(() =>
+            if (currentTarget.position.x > transform.position.x)
             {
-                DOVirtual.DelayedCall(waitDuration, () =>
+                transform.localScale = new Vector3(Mathf.Abs(ogScale.x), ogScale.y, ogScale.z);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(ogScale.x), ogScale.y, ogScale.z);
+            }
+
+            Vector3 targetPosition = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
+            rb.MovePosition(targetPosition);
+
+            if (!isWaiting && Vector3.Distance(transform.position, currentTarget.position) < 1)
+            {
+                StartCoroutine(WaitThenSwitch());
+            }
+
+            if (gameObject.CompareTag("Slime"))
+            {
+                if (!isWaiting && (!IsGroundAhead() || IsWallAhead()))
                 {
-                    SwitchTarget();
-                });
-            });
+                    StartCoroutine(WaitThenSwitch());
+                }
+
+            }
+
+            if (gameObject.CompareTag("Ghost"))
+            {
+                if (!isWaiting && (IsWallAhead()))
+                {
+                    StartCoroutine(WaitThenSwitch());
+                }
+
+            }
+        }
+
+
     }
 
-     void FlipSprite(float targetXScale)
+    IEnumerator WaitThenSwitch()
     {
-        flipTween?.Kill();
-        flipTween = transform.DOScaleX(targetXScale, 0.2f).SetEase(Ease.OutQuad);
+        isWaiting = true;
+        yield return new WaitForSeconds(waitDuration);
+        SwitchTarget();
+        isWaiting = false;
     }
 
-     void OnDrawGizmosSelected()
+
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         if (edgeCheckPoint != null)
@@ -112,7 +147,7 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
     }
 
-   
+
 
 }
 

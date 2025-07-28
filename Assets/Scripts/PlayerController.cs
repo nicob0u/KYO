@@ -40,15 +40,10 @@ public class PlayerController : MonoBehaviour
     public float attackRadius;
     public LayerMask enemyLayer;
     private bool isGrounded;
-    
 
-
-
-    private void Awake()
-    {
-       
-    }
-
+    [HideInInspector]
+    public bool isAttacking = false;
+ 
     void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -169,11 +164,11 @@ public class PlayerController : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isAttacking)
         {
-            
-            UnityEngine.Debug.Log("Attack!");
+            isAttacking = true;
             anim.SetBool("isAttacking", true);
+
         }
     }
 
@@ -195,6 +190,7 @@ public class PlayerController : MonoBehaviour
 
     public void EndAttack()
     {
+        isAttacking = false;
         anim.SetBool("isAttacking", false);
     }
 

@@ -47,11 +47,11 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, snappedPosition, smoothSpeed * Time.deltaTime);
 
-        float hMove = playerController.horizontalMovement;
-        if (hMove > 0)
-            facingDirection = 1;
-        else if (hMove < 0)
-            facingDirection = -1;
+        //float hMove = playerController.horizontalMovement;
+        //if (hMove > 0)
+        //    facingDirection = 1;
+        //else if (hMove < 0)
+        //    facingDirection = -1;
 
     }
 
