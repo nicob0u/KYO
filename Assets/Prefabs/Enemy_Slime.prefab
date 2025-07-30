@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3891248856066969077}
   m_Layer: 6
-  m_Name: BlockCheck
+  m_Name: SpikeCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4573410533774594518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.045, y: -0.035, z: 0}
+  m_LocalPosition: {x: 0.044, y: -0.486, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,6 +255,15 @@ MonoBehaviour:
   edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 6778047090324481037}
   wallCheckSize: {x: 0.2, y: 0.21}
+  spikeCheck: {fileID: 3891248856066969077}
+  spikeCheckSize: {x: 1.58, y: 1}
+  spikeTiles:
+  - {fileID: 11400000, guid: e01ffe6376bface4cbc8d42eab89ff5d, type: 2}
+  - {fileID: 11400000, guid: 45cf39cc62d375941a4b3e755c536db3, type: 2}
+  - {fileID: 11400000, guid: 7ddc4bf31be75494eb6969eb87d5f80a, type: 2}
+  - {fileID: 11400000, guid: 5dc14b9809467764b8da8aa5aceebfda, type: 2}
+  - {fileID: 11400000, guid: ddfb8ec01fdec4e49bdcd40f6d30197c, type: 2}
+  - {fileID: 11400000, guid: b0cda0ccccd604246bbbea8320774b23, type: 2}
 --- !u!114 &6162910366191854965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +279,7 @@ MonoBehaviour:
   maxHP: 0
   currentHP: 0
   health: {fileID: 6162910366191854965}
-  pushForce: 2
+  pushForce: 3
   isKnockedBack: 0
 --- !u!50 &5713924579555967782
 Rigidbody2D:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class EnemyHealth : Health
 {
@@ -17,6 +18,7 @@ public class EnemyHealth : Health
     private Tween fadeTween;
 
     public bool isKnockedBack = false;
+
 
     public override void Start()
     {
@@ -84,21 +86,20 @@ public class EnemyHealth : Health
 
     IEnumerator DeathSequence()
     {
-        spriteRenderer.color = Color.red;
-
-        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.yellow;
 
         rb.constraints = RigidbodyConstraints2D.None;
-
-        fadeTween?.Kill();
-        fadeTween = spriteRenderer.DOFade(0f, 0.7f);
-
         coll.enabled = false;
 
+        yield return transform.DOScale(1.3f, 0.1f).SetLoops(2, LoopType.Yoyo).WaitForCompletion();
 
-        yield return new WaitForSeconds(0.7f);
+        Sequence drop = DOTween.Sequence();
+        drop.Append(transform.DOMoveY(transform.position.y - 1f, 0.5f));
+        drop.Join(spriteRenderer.DOFade(0f, 0.5f));
+        yield return drop.WaitForCompletion();
 
         Destroy(gameObject);
     }
+
 
 }

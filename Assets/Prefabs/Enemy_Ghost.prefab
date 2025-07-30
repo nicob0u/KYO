@@ -194,6 +194,7 @@ Transform:
   m_Children:
   - {fileID: 432576937055757689}
   - {fileID: 432576936718107008}
+  - {fileID: 3943353499214578780}
   m_Father: {fileID: 432576938181893546}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -390,6 +391,15 @@ MonoBehaviour:
   edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 432576936718107008}
   wallCheckSize: {x: 0.2, y: 0.2}
+  spikeCheck: {fileID: 3943353499214578780}
+  spikeCheckSize: {x: 0.5, y: 0.5}
+  spikeTiles:
+  - {fileID: 11400000, guid: a36350f205788e245811c25fad2fd171, type: 2}
+  - {fileID: 11400000, guid: 75358140c71133e429b1e334989a55fa, type: 2}
+  - {fileID: 11400000, guid: f7e3cc0b3bfb53f418e22538f0caedfe, type: 2}
+  - {fileID: 11400000, guid: 86d5fd512597a014ea62e54ebc4ab70e, type: 2}
+  - {fileID: 11400000, guid: 6624a8843db5f2e41a42c4b9f3087497, type: 2}
+  - {fileID: 11400000, guid: ff4bfc01f597e6646bcd424c22576dc8, type: 2}
 --- !u!114 &7281750569713207632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a76417e8497904c9135f9aa12e9efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
   health: {fileID: 7281750569713207632}
   pushForce: 2
   isKnockedBack: 0
@@ -462,6 +474,15 @@ MonoBehaviour:
   edgeCheckSize: {x: 0.2, y: 0.2}
   wallCheckPoint: {fileID: 432576936718107008}
   wallCheckSize: {x: 0.2, y: 0.2}
+  spikeCheck: {fileID: 3943353499214578780}
+  spikeCheckSize: {x: 1.73, y: 0.31}
+  spikeTiles:
+  - {fileID: 11400000, guid: a36350f205788e245811c25fad2fd171, type: 2}
+  - {fileID: 11400000, guid: 75358140c71133e429b1e334989a55fa, type: 2}
+  - {fileID: 11400000, guid: f7e3cc0b3bfb53f418e22538f0caedfe, type: 2}
+  - {fileID: 11400000, guid: 86d5fd512597a014ea62e54ebc4ab70e, type: 2}
+  - {fileID: 11400000, guid: 6624a8843db5f2e41a42c4b9f3087497, type: 2}
+  - {fileID: 11400000, guid: ff4bfc01f597e6646bcd424c22576dc8, type: 2}
 --- !u!50 &211429015862543504
 Rigidbody2D:
   serializedVersion: 4
@@ -483,3 +504,34 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
+--- !u!1 &3163742434490835426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3943353499214578780}
+  m_Layer: 6
+  m_Name: SpikeCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3943353499214578780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3163742434490835426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.332, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 432576937875816993}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

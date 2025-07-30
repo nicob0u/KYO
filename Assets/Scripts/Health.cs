@@ -24,7 +24,6 @@ public class Health : MonoBehaviour
         if (isDead) return;
         currentHP -= damage;
         onDamageTaken?.Invoke(damage);
-        UnityEngine.Debug.Log("Health: " + currentHP);
 
         if (currentHP <= 0)
         {

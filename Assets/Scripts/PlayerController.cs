@@ -62,6 +62,10 @@ public class PlayerController : MonoBehaviour
     public List<TileBase> spikeTiles;
     private Tilemap tilemap;
 
+    [HideInInspector] public float knockbackTimer = 0f;
+    public float knockbackDuration = 0.3f;
+
+
     void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -77,6 +81,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.deltaTime;
+            return;
+        }
 
         rb.velocity = new Vector2(horizontalMovement * moveSpeed, rb.velocity.y);
 
@@ -212,7 +221,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed && !isAttacking)
         {
             isAttacking = true;
-            anim.SetBool("isAttacking", true);
+            anim.SetTrigger("Attack");
 
         }
     }
@@ -236,7 +245,6 @@ public class PlayerController : MonoBehaviour
     public void EndAttack()
     {
         isAttacking = false;
-        anim.SetBool("isAttacking", false);
     }
 
 
@@ -276,11 +284,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        var playerHealth = gameObject.GetComponent<Health>();
 
         if (other.CompareTag("Slime") || other.CompareTag("Ghost"))
         {
 
-            var playerHealth = gameObject.GetComponent<Health>();
 
             if (playerHealth == null)
             {
@@ -290,6 +298,11 @@ public class PlayerController : MonoBehaviour
             playerHealth.TakeDamage(1);
 
 
+        }
+
+        if (other.CompareTag("KillZone"))
+        {
+            playerHealth.Die();
         }
     }
 

@@ -8,6 +8,7 @@ using System.ComponentModel.Design;
 using UnityEngine;
 using DG.Tweening;
 using System.Diagnostics;
+using UnityEngine.Tilemaps;
 
 public class Enemy : MonoBehaviour
 {
@@ -31,14 +32,24 @@ public class Enemy : MonoBehaviour
     private Transform currentTarget;
 
     private bool isWaiting = false;
+    private bool isTargetTooFar = false;
 
     private Rigidbody2D rb;
     private EnemyHealth enemyHealth;
 
+    public Transform spikeCheck;
+    public Vector2 spikeCheckSize = new Vector2(0.5f, 0.5f);
+
+    public List<TileBase> spikeTiles;
+    private Tilemap tilemap;
+    private bool canTakeDamage = true;
+    
+
+
 
     void Start()
     {
-     
+
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
             rb = GetComponentInChildren<Rigidbody2D>();
@@ -47,19 +58,57 @@ public class Enemy : MonoBehaviour
         if (enemyHealth == null)
             enemyHealth = GetComponentInChildren<EnemyHealth>();
 
+        tilemap = GameObject.Find("Grid/Obstacles").GetComponent<Tilemap>();
+        if (tilemap == null)
+        {
+            UnityEngine.Debug.Log("Couldn't get tilemap.");
+
+        }
+     
+
         ogScale = transform.localScale;
         currentTarget = pointB;
+
+        
     }
 
     void FixedUpdate()
     {
 
-        if (!isWaiting)
+        if (!isWaiting && !enemyHealth.isKnockedBack)
         {
             Patrol();
         }
 
+        if (gameObject.CompareTag("Slime"))
+        {
+            DealSpikeDamage();
+        }
     }
+
+    void DealSpikeDamage()
+    {
+        Vector3Int cellPos = tilemap.WorldToCell(spikeCheck.position);
+        TileBase tile = tilemap.GetTile(cellPos);
+
+        if (spikeTiles.Contains(tile) && canTakeDamage)
+        {
+            var enemyHealth = GetComponent<Health>();
+            enemyHealth.TakeDamage(1);
+            canTakeDamage = false;
+            StartCoroutine(SpikeDamageCoolDown());
+            
+        }
+
+    }
+
+    IEnumerator SpikeDamageCoolDown()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canTakeDamage = true;
+    }
+
+
 
     bool IsGroundAhead()
     {
@@ -75,9 +124,14 @@ public class Enemy : MonoBehaviour
 
     void SwitchTarget()
     {
-
+        if (isTargetTooFar)
+        {
+            pointA.position = new Vector3(transform.position.x - 3f, transform.position.y, transform.position.z);
+            pointB.position = new Vector3(transform.position.x + 3f, transform.position.y, transform.position.z);
+        }
 
         currentTarget = (currentTarget == pointA) ? pointB : pointA;
+      
     }
 
     void Patrol()
@@ -124,6 +178,16 @@ public class Enemy : MonoBehaviour
                 }
 
             }
+
+            if (Vector3.Distance(transform.position, currentTarget.position) >= 10f)
+            {
+                isTargetTooFar = true;
+                UnityEngine.Debug.Log("target too far");
+                StartCoroutine(WaitThenSwitch());
+
+
+            }
+
         }
 
 
@@ -135,6 +199,9 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(waitDuration);
         SwitchTarget();
         isWaiting = false;
+
+        if (isTargetTooFar)
+            isTargetTooFar = false;
     }
 
 
@@ -146,6 +213,9 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.cyan;
         if (wallCheckPoint != null)
             Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
+        Gizmos.color = Color.yellow;
+        if (spikeCheck != null)
+            Gizmos.DrawWireCube(spikeCheck.position, spikeCheckSize);
     }
 
 
