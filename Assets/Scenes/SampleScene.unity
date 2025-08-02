@@ -29687,7 +29687,7 @@ MonoBehaviour:
   maxFallSpeed: 18
   fullSpeedMultiplier: 2
   attackPoint: {fileID: 531772971}
-  attackRadius: 1.36
+  attackRadius: 1.25
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
