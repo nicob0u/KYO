@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public float attackRadius;
     public LayerMask enemyLayer;
     private bool isGrounded;
+    [SerializeField]
+    public int attackPower = 1;
 
     //Roof spike detection
     public Transform spikeCheck;
@@ -235,7 +237,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemyGameObject in enemies)
         {
             var enemyHealth = enemyGameObject.GetComponent<Health>();
-            enemyHealth.TakeDamage(1);
+            enemyHealth.TakeDamage(attackPower);
             UnityEngine.Debug.Log("Enemy hit");
 
         }

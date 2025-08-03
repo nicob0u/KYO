@@ -50,7 +50,6 @@ public class DamageFeedback : MonoBehaviour
     public IEnumerator InvincibilityCoroutine()
     {
         int originalLayer = gameObject.layer;
-
         gameObject.layer = LayerMask.NameToLayer("PlayerInvincible");
 
         isInvincible = true;

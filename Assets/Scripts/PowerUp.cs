@@ -1,0 +1,112 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+
+public class PowerUp : MonoBehaviour
+{
+    public float powerUpDuration = 10f;
+    private PlayerController player;
+    private SpriteRenderer spriteRenderer;
+    private Vector3 originalScale;
+    private Color originalColor;
+
+    public float bounceDuration = 0.3f;
+    public float glowDuration = 1.0f;
+    public Color glowColor = new Color(1f, 1f, 0.5f, 1f);
+    private float originalXScale;
+    private float originalSpeed;
+    private int originalPower;
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
+
+        originalScale = player.transform.localScale;
+        originalColor = spriteRenderer.color;
+        originalXScale = Mathf.Sign(originalScale.x);
+        originalSpeed = player.moveSpeed;
+        originalPower = player.attackPower;
+    }
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            StartCoroutine(ActivatePowerUp());
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+
+
+        }
+    }
+
+    public IEnumerator ActivatePowerUp()
+    {
+        //Power up boost
+        player.moveSpeed = 15f;
+        player.attackPower = 3;
+
+        //Invincibility settings
+        int originalLayer = player.gameObject.layer;
+        player.gameObject.layer = LayerMask.NameToLayer("PlayerInvincible");
+
+        bool isPunchOver = false;
+
+        //Power up effects
+        float elapsed = 0;
+        while (elapsed < powerUpDuration)
+        {
+
+            float direction = Mathf.Sign(player.transform.localScale.x);
+
+            //Scale punch effect
+            player.transform.DOPunchScale(new Vector3(direction * 0.3f, 0.3f, 0f), 0.3f, 10, 1f)
+                .OnComplete(() =>
+                {
+
+                    player.transform.localScale = new Vector3(direction * Mathf.Abs(originalScale.x),
+                        originalScale.y, originalScale.z);
+
+                    isPunchOver = true;
+
+                });
+
+            player.enableGroundCheck = false;
+            player.enableRoofCheck = false;
+
+            //Glow effect
+            bool isGlowOver = false;
+            Sequence seq = DOTween.Sequence();
+            seq.Append(spriteRenderer.DOColor(glowColor, bounceDuration));
+            seq.Append(spriteRenderer.DOColor(originalColor, glowDuration).SetEase(Ease.InOutSine))
+                .OnComplete(() =>
+                isGlowOver = true
+                );
+
+            yield return new WaitUntil(() => isPunchOver && isGlowOver);
+            elapsed += bounceDuration + glowDuration;
+            isPunchOver = false;
+
+        }
+
+        //Back to original settings
+        player.transform.localScale = originalScale;
+        player.moveSpeed = originalSpeed;
+        player.attackPower = originalPower;
+        player.gameObject.layer = originalLayer;
+        player.enableGroundCheck = true;
+        player.enableRoofCheck = true;
+
+
+    }
+
+
+
+
+}
