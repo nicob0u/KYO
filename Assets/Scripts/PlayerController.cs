@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public Transform attackPoint;
     public float attackRadius;
     public LayerMask enemyLayer;
+
     private bool isGrounded;
     [SerializeField]
     public int attackPower = 1;
@@ -70,15 +71,16 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
         input = GetComponent<PlayerInput>();
         attackAction = input.actions.FindAction("Attack");
         attackAction.performed += Attack;
-
 
         jumpsRemaining = maxJumps;
         ogScale = transform.localScale;
 
         tilemap = GameObject.Find("Obstacles").GetComponent<Tilemap>();
+
     }
 
     void Update()
@@ -207,7 +209,7 @@ public class PlayerController : MonoBehaviour
         isTouchingRoofSpike = Physics2D.OverlapBox(spikeCheck.position, spikeCheckSize, 0, groundLayer);
         Vector3Int worldPos = tilemap.WorldToCell(spikeCheck.position + Vector3.up * 0.5f);
         TileBase tile = tilemap.GetTile(worldPos);
-    
+
 
         if (tile != null && spikeTiles.Any(t => t != null && t.name == tile.name) && isTouchingRoofSpike && enableRoofCheck)
         {
@@ -231,15 +233,18 @@ public class PlayerController : MonoBehaviour
     public void AttackAtPoint()
     {
 
-
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
-
+        LayerMask damageLayer = LayerMask.GetMask("Enemy", "HeadDamage");
+        HashSet<Health> damaged = new HashSet<Health>();
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, damageLayer);
         foreach (Collider2D enemyGameObject in enemies)
         {
-            var enemyHealth = enemyGameObject.GetComponent<Health>();
-            enemyHealth.TakeDamage(attackPower);
-            UnityEngine.Debug.Log("Enemy hit");
-
+            var enemyHealth = enemyGameObject.GetComponent<Health>() ?? enemyGameObject.GetComponentInParent<Health>();
+            if (enemyHealth != null && !damaged.Contains(enemyHealth))
+            {
+                enemyHealth.TakeDamage(attackPower);
+                UnityEngine.Debug.Log("Enemy hit");
+                damaged.Add(enemyHealth);   
+            }        
         }
 
     }
@@ -307,6 +312,25 @@ public class PlayerController : MonoBehaviour
             playerHealth.Die();
         }
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
 
+      if (collision != null && collision.collider.CompareTag("HeadDamage"))
+        {
+            var enemyHealth = collision.collider.GetComponentInParent<Health>();
+            enemyHealth.TakeDamage(attackPower);
+            UnityEngine.Debug.Log("Enemy hit");
+
+            Vector2 direction = (transform.position - collision.transform.position).normalized;
+            rb.velocity = Vector2.zero;
+            rb.AddForce(Vector2.one * 8f, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        scaleYTween?.Kill();
+        flipTween?.Kill();
+    }
 
 }

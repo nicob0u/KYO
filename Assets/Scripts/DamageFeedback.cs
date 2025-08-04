@@ -41,8 +41,6 @@ public class DamageFeedback : MonoBehaviour
     {
         if (!isInvincible)
         {
-
-
             StartCoroutine(InvincibilityCoroutine());
         }
     }

@@ -18,6 +18,9 @@ public class PowerUp : MonoBehaviour
     private float originalSpeed;
     private int originalPower;
 
+    private Tween punchTween;
+    private Sequence seq;
+
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -48,6 +51,9 @@ public class PowerUp : MonoBehaviour
 
     public IEnumerator ActivatePowerUp()
     {
+        if (player == null || spriteRenderer == null)
+            yield break;
+
         //Power up boost
         player.moveSpeed = 15f;
         player.attackPower = 3;
@@ -62,11 +68,13 @@ public class PowerUp : MonoBehaviour
         float elapsed = 0;
         while (elapsed < powerUpDuration)
         {
+            if (player == null || spriteRenderer == null)
+                yield break;
 
             float direction = Mathf.Sign(player.transform.localScale.x);
 
             //Scale punch effect
-            player.transform.DOPunchScale(new Vector3(direction * 0.3f, 0.3f, 0f), 0.3f, 10, 1f)
+            punchTween = player.transform.DOPunchScale(new Vector3(direction * 0.3f, 0.3f, 0f), 0.3f, 10, 1f)
                 .OnComplete(() =>
                 {
 
@@ -82,12 +90,23 @@ public class PowerUp : MonoBehaviour
 
             //Glow effect
             bool isGlowOver = false;
-            Sequence seq = DOTween.Sequence();
-            seq.Append(spriteRenderer.DOColor(glowColor, bounceDuration));
-            seq.Append(spriteRenderer.DOColor(originalColor, glowDuration).SetEase(Ease.InOutSine))
-                .OnComplete(() =>
-                isGlowOver = true
-                );
+            seq = DOTween.Sequence();
+
+            if (spriteRenderer == null || player == null)
+            {
+                yield break; 
+            }
+            else
+            {
+                seq.Append(spriteRenderer.DOColor(glowColor, bounceDuration));
+                seq.Append(spriteRenderer.DOColor(originalColor, glowDuration).SetEase(Ease.InOutSine))
+                    .OnComplete(() =>
+                    {
+                        if (spriteRenderer != null)
+                            isGlowOver = true;
+                    });
+
+            }
 
             yield return new WaitUntil(() => isPunchOver && isGlowOver);
             elapsed += bounceDuration + glowDuration;
@@ -106,7 +125,20 @@ public class PowerUp : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        if (punchTween != null && punchTween.IsActive())
+            punchTween.Kill();
 
+        if (seq != null && seq.IsActive())
+            seq.Kill();
+
+        if (spriteRenderer != null)
+            DOTween.Kill(spriteRenderer);
+
+        if (player != null && player.transform != null)
+            DOTween.Kill(player.transform);
+    }
 
 
 }

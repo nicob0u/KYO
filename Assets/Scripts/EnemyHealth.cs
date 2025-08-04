@@ -86,10 +86,9 @@ public class EnemyHealth : Health
 
     IEnumerator DeathSequence()
     {
-        spriteRenderer.color = Color.yellow;
-
-        rb.constraints = RigidbodyConstraints2D.None;
         coll.enabled = false;
+        spriteRenderer.color = Color.yellow;
+        rb.constraints = RigidbodyConstraints2D.None;
 
         yield return transform.DOScale(1.3f, 0.1f).SetLoops(2, LoopType.Yoyo).WaitForCompletion();
 

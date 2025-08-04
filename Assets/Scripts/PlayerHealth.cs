@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerHealth : Health
 {
     public override void Start()
     {
+
         maxHP = 5;
         base.Start();
     }
@@ -23,8 +25,15 @@ public class PlayerHealth : Health
 
 
         base.Die();
+        DOTween.Kill(gameObject);
+        DOTween.Kill(transform);
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) DOTween.Kill(sr);
 
-        Destroy(gameObject);
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
 
         UnityEngine.Debug.Log("Game over");
         UnityEditor.EditorApplication.isPlaying = false;
@@ -32,4 +41,6 @@ public class PlayerHealth : Health
 
 
     }
+
+
 }

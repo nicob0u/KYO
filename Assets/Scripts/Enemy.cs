@@ -20,12 +20,13 @@ public class Enemy : MonoBehaviour
     private Vector3 ogScale;
 
     public LayerMask groundLayer;
+    public LayerMask playerLayer;
 
-    //GroundCheck
+    //Ground check
     public Transform edgeCheckPoint;
     public Vector2 edgeCheckSize = new Vector2(0.2f, 0.2f);
 
-    //WallCheck
+    //Wall check
     public Transform wallCheckPoint;
     public Vector2 wallCheckSize = new Vector2(0.2f, 0.2f);
 
@@ -43,7 +44,6 @@ public class Enemy : MonoBehaviour
     public List<TileBase> spikeTiles;
     private Tilemap tilemap;
     private bool canTakeDamage = true;
-    
 
 
 
@@ -64,12 +64,12 @@ public class Enemy : MonoBehaviour
             UnityEngine.Debug.Log("Couldn't get tilemap.");
 
         }
-     
+
 
         ogScale = transform.localScale;
         currentTarget = pointB;
 
-        
+
     }
 
     void FixedUpdate()
@@ -84,6 +84,7 @@ public class Enemy : MonoBehaviour
         {
             DealSpikeDamage();
         }
+
     }
 
     void DealSpikeDamage()
@@ -93,21 +94,19 @@ public class Enemy : MonoBehaviour
 
         if (spikeTiles.Contains(tile) && canTakeDamage)
         {
-            var enemyHealth = GetComponent<Health>();
             enemyHealth.TakeDamage(1);
             canTakeDamage = false;
-            StartCoroutine(SpikeDamageCoolDown());
-            
+            StartCoroutine(DamageCoolDown());
+
         }
 
     }
 
-    IEnumerator SpikeDamageCoolDown()
+    IEnumerator DamageCoolDown()
     {
         yield return new WaitForSeconds(0.5f);
         canTakeDamage = true;
     }
-
 
 
     bool IsGroundAhead()
@@ -122,6 +121,7 @@ public class Enemy : MonoBehaviour
 
     }
 
+
     void SwitchTarget()
     {
         if (isTargetTooFar)
@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentTarget = (currentTarget == pointA) ? pointB : pointA;
-      
+
     }
 
     void Patrol()
@@ -216,8 +216,11 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.yellow;
         if (spikeCheck != null)
             Gizmos.DrawWireCube(spikeCheck.position, spikeCheckSize);
+        Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
+       
     }
 
+    
 
 
 }
