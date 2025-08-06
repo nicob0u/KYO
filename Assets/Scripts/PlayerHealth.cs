@@ -30,14 +30,9 @@ public class PlayerHealth : Health
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) DOTween.Kill(sr);
 
-#if UNITY_EDITOR
-    UnityEditor.EditorApplication.isPlaying = false;
-#endif
-
 
         UnityEngine.Debug.Log("Game over");
-        UnityEditor.EditorApplication.isPlaying = false;
-
+        GameManager.Instance?.GameOver();
 
 
     }
