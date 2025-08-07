@@ -32,7 +32,7 @@ public class PlayerHealth : Health
 
 
         UnityEngine.Debug.Log("Game over");
-        GameManager.Instance?.GameOver();
+        GameManager.Instance.GameOver();
 
 
     }

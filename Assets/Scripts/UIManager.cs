@@ -16,8 +16,10 @@ public class UIManager : MonoBehaviour
     private GameObject settingsPanel;
 
     private Button resumeButton;
-    private Button restartButton;
-    private Button settingsButton;
+    private Button pauseRestartButton;
+    private Button gameOverRestartButton;
+    private Button mainMenuSettingsButton;
+    private Button pauseSettingsButton;
     private Button startButton;
     private Button exitButton;
     private Button backButton;
@@ -53,15 +55,15 @@ public class UIManager : MonoBehaviour
         if (pauseMenuPanel != null)
         {
             resumeButton = pauseMenuPanel.transform.Find("ResumeButton")?.GetComponent<Button>();
-            restartButton = pauseMenuPanel.transform.Find("RestartButton")?.GetComponent<Button>();
-            settingsButton = pauseMenuPanel.transform.Find("SettingsButton")?.GetComponent<Button>();
+            pauseRestartButton = pauseMenuPanel.transform.Find("RestartButton")?.GetComponent<Button>();
+            pauseSettingsButton = pauseMenuPanel.transform.Find("SettingsButton")?.GetComponent<Button>();
             pauseMainMenuButton = pauseMenuPanel.transform.Find("MainMenuButton")?.GetComponent<Button>();
         }
 
         if (mainMenuPanel != null)
         {
             startButton = mainMenuPanel.transform.Find("StartButton")?.GetComponent<Button>();
-            settingsButton = mainMenuPanel.transform.Find("SettingsButton")?.GetComponent<Button>();
+            mainMenuSettingsButton = mainMenuPanel.transform.Find("SettingsButton")?.GetComponent<Button>();
             exitButton = mainMenuPanel.transform.Find("ExitButton")?.GetComponent<Button>();
 
         }
@@ -78,7 +80,7 @@ public class UIManager : MonoBehaviour
         }
         if(gameOverPanel != null)
         {
-            restartButton = gameOverPanel.transform.Find("RestartButton")?.GetComponent<Button>();
+            gameOverRestartButton = gameOverPanel.transform.Find("RestartButton")?.GetComponent<Button>();
             gameOverMainMenuButton = gameOverPanel.transform.Find("MainMenuButton")?.GetComponent<Button>();
         }
 
@@ -92,54 +94,65 @@ public class UIManager : MonoBehaviour
         if (resumeButton != null)
         {
             resumeButton.onClick.RemoveAllListeners();
-            resumeButton.onClick.AddListener(() => GameManager.Instance?.PauseOrResume());
+            resumeButton.onClick.AddListener(() => GameManager.Instance.PauseOrResume());
         }
-        if (restartButton != null)
+        if (pauseRestartButton != null)
         {
-            restartButton.onClick.RemoveAllListeners();
-            restartButton.onClick.AddListener(() => GameManager.Instance?.RestartLevel());
+            pauseRestartButton.onClick.RemoveAllListeners();
+            pauseRestartButton.onClick.AddListener(() => GameManager.Instance.RestartLevel());
         }
 
-        if (settingsButton != null)
+        if (gameOverRestartButton != null)
         {
-            settingsButton.onClick.RemoveAllListeners();
-            settingsButton.onClick.AddListener(() => GameManager.Instance?.Settings());
+            gameOverRestartButton.onClick.RemoveAllListeners();
+            gameOverRestartButton.onClick.AddListener(() => GameManager.Instance.RestartLevel());
+        }
+
+        if (pauseSettingsButton != null)
+        {
+            pauseSettingsButton.onClick.RemoveAllListeners();
+            pauseSettingsButton.onClick.AddListener(() => GameManager.Instance.Settings());
+        }
+        if (mainMenuSettingsButton != null)
+        {
+            mainMenuSettingsButton.onClick.RemoveAllListeners();
+            mainMenuSettingsButton.onClick.AddListener(() => GameManager.Instance.Settings());
         }
 
         if (pauseMainMenuButton != null)
         {
             pauseMainMenuButton.onClick.RemoveAllListeners();
-            pauseMainMenuButton.onClick.AddListener(() => GameManager.Instance?.MainMenu());
+            pauseMainMenuButton.onClick.AddListener(() => GameManager.Instance.MainMenu());
         }
         if (gameOverMainMenuButton != null)
         {
             gameOverMainMenuButton.onClick.RemoveAllListeners();
-            gameOverMainMenuButton.onClick.AddListener(() => GameManager.Instance?.MainMenu());
+            gameOverMainMenuButton.onClick.AddListener(() => GameManager.Instance.MainMenu());
         }
         if (winMainMenuButton != null)
         {
             winMainMenuButton.onClick.RemoveAllListeners();
-            winMainMenuButton.onClick.AddListener(() => GameManager.Instance?.MainMenu());
+            winMainMenuButton.onClick.AddListener(() => GameManager.Instance.MainMenu());
         }
         if (startButton != null)
         {
             startButton.onClick.RemoveAllListeners();
-            startButton.onClick.AddListener(() => GameManager.Instance?.LoadLevel(0));
+            startButton.onClick.AddListener(() => GameManager.Instance.LoadLevel(0));
         }
         if (exitButton != null)
         {
             exitButton.onClick.RemoveAllListeners();
-            exitButton.onClick.AddListener(() => GameManager.Instance?.ExitGame());
+            exitButton.onClick.AddListener(() => GameManager.Instance.ExitGame());
         }
         if (backButton != null)
         {
             backButton.onClick.RemoveAllListeners();
-            backButton.onClick.AddListener(() => GameManager.Instance?.Back());
+            backButton.onClick.AddListener(() => GameManager.Instance.Back());
         }
         if (nextLevelButton != null)
         {
             nextLevelButton.onClick.RemoveAllListeners();
-            //nextLevelButton.onClick.AddListener(() => GameManager.Instance?.LoadLevel());
+            //nextLevelButton.onClick.AddListener(() => GameManager.Instance.LoadLevel());
         }
     }
 
@@ -185,7 +198,7 @@ public class UIManager : MonoBehaviour
     public void ShowSettings()
     {
         HideAllMenus();
-        if (settingsButton != null) settingsPanel.SetActive(true);
+        if (settingsPanel != null) settingsPanel.SetActive(true);
     }
 
 
