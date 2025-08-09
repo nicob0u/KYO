@@ -87,34 +87,42 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1f;
                 uiManager?.ShowMainMenu();
                 uiManager?.HideHUD();
-
+                uiManager?.ShowLogo();
                 break;
+
             case GameState.Playing:
                 Time.timeScale = 1f;
                 uiManager?.HideAllMenus();
                 uiManager?.ShowHUD();
+                uiManager?.HideLogo();
                 break;
 
             case GameState.Paused:
                 Time.timeScale = 0f;
                 uiManager?.ShowPauseMenu();
                 uiManager?.HideHUD();
-
+                uiManager?.HideLogo();
                 break;
+
             case GameState.Win:
                 Time.timeScale = 0f;
                 uiManager?.ShowWinMenu();
                 uiManager?.HideHUD();
+                uiManager?.HideLogo();
                 break;
+
             case GameState.GameOver:
                 Time.timeScale = 0f;
                 uiManager?.ShowGameOverMenu();
                 uiManager?.HideHUD();
+                uiManager?.HideLogo();
                 break;
+
             case GameState.Settings:
                 Time.timeScale = 0f;
                 uiManager?.ShowSettings();
                 uiManager?.HideHUD();
+                uiManager?.HideLogo();
                 break;
 
 
@@ -133,7 +141,7 @@ public class GameManager : MonoBehaviour
         else if (CurrentState == GameState.Playing)
         {
             SetGameState(GameState.Paused);
-       
+
         }
 
     }

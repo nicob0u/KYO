@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     private GameObject winPanel;
     private GameObject hudPanel;
     private GameObject settingsPanel;
+    private GameObject logoPanel;
 
     private Button resumeButton;
     private Button pauseRestartButton;
@@ -51,6 +52,7 @@ public class UIManager : MonoBehaviour
         winPanel = GameObject.Find("WinPanel");
         hudPanel = GameObject.Find("HUDPanel");
         settingsPanel = GameObject.Find("SettingsPanel");
+        logoPanel = GameObject.Find("LogoPanel");
 
         if (pauseMenuPanel != null)
         {
@@ -172,7 +174,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowWinMenu()
     {
-
         HideAllMenus();
         if (winPanel != null) winPanel.SetActive(true);
     }
@@ -192,7 +193,7 @@ public class UIManager : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         if (hudPanel != null) hudPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
-
+        if (logoPanel != null) logoPanel.SetActive(false);
     }
 
     public void ShowSettings()
@@ -210,6 +211,16 @@ public class UIManager : MonoBehaviour
     public void HideHUD()
     {
         if (hudPanel != null) hudPanel.SetActive(false);
+    }
+
+    public void ShowLogo()
+    {
+        if (logoPanel != null) logoPanel.SetActive(true);
+    }
+
+    public void HideLogo()
+    {
+        if (logoPanel != null) logoPanel.SetActive(false);
     }
 
     void OnDestroy()
