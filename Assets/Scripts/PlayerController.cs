@@ -69,6 +69,9 @@ public class PlayerController : MonoBehaviour
     public float knockbackDuration = 0.3f;
 
 
+    public int facingDirection = 1;
+
+
     void Start()
     {
 
@@ -134,8 +137,8 @@ public class PlayerController : MonoBehaviour
 
     private void FlipSprite(float targetXScale)
     {
+        facingDirection = (targetXScale > 0) ? 1 : -1;
         flipTween?.Kill();
-
         flipTween = transform.DOScaleX(targetXScale, 0.2f)
                              .SetEase(Ease.OutQuad);
     }
@@ -233,7 +236,7 @@ public class PlayerController : MonoBehaviour
     public void AttackAtPoint()
     {
 
-        LayerMask damageLayer = LayerMask.GetMask("Enemy", "HeadDamage");
+        LayerMask damageLayer = LayerMask.GetMask("Enemy", "HeadDamageColl");
         HashSet<Health> damaged = new HashSet<Health>();
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, damageLayer);
         foreach (Collider2D enemyGameObject in enemies)
@@ -312,20 +315,7 @@ public class PlayerController : MonoBehaviour
             playerHealth.Die();
         }
     }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
 
-      if (collision != null && collision.collider.CompareTag("HeadDamage"))
-        {
-            var enemyHealth = collision.collider.GetComponentInParent<Health>();
-            enemyHealth.TakeDamage(attackPower);
-            UnityEngine.Debug.Log("Enemy hit");
-
-            Vector2 direction = (transform.position - collision.transform.position).normalized;
-            rb.velocity = Vector2.zero;
-            rb.AddForce(Vector2.one * 8f, ForceMode2D.Impulse);
-        }
-    }
 
     private void OnDestroy()
     {

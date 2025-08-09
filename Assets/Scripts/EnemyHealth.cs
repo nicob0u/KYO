@@ -22,7 +22,7 @@ public class EnemyHealth : Health
 
     public override void Start()
     {
-        maxHP = 3;
+        maxHP = 2;
         base.Start();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -52,6 +52,10 @@ public class EnemyHealth : Health
     public override void Die()
     {
         base.Die();
+        DOTween.Kill(gameObject);
+        DOTween.Kill(transform);
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) DOTween.Kill(sr);
         if (gameObject != null)
         {
             StartCoroutine(DeathSequence());

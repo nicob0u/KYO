@@ -216,11 +216,11 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.yellow;
         if (spikeCheck != null)
             Gizmos.DrawWireCube(spikeCheck.position, spikeCheckSize);
-        Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
-       
+        Gizmos.color = Color.blue;
+
     }
 
-    
+
 
 
 }

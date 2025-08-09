@@ -38,7 +38,7 @@ public class PowerUp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             StartCoroutine(ActivatePowerUp());
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -60,7 +60,7 @@ public class PowerUp : MonoBehaviour
 
         //Invincibility settings
         int originalLayer = player.gameObject.layer;
-        player.gameObject.layer = LayerMask.NameToLayer("PlayerInvincible");
+        player.gameObject.layer = LayerMask.NameToLayer("PlayerPoweredUp");
 
         bool isPunchOver = false;
 
@@ -71,20 +71,21 @@ public class PowerUp : MonoBehaviour
             if (player == null || spriteRenderer == null)
                 yield break;
 
-            float direction = Mathf.Sign(player.transform.localScale.x);
+            float direction = player.facingDirection;
 
             //Scale punch effect
-            punchTween = player.transform.DOPunchScale(new Vector3(direction * 0.3f, 0.3f, 0f), 0.3f, 10, 1f)
-                .OnComplete(() =>
-                {
+            punchTween = player.transform.DOPunchScale(new Vector3(0f, 0.3f, 0f), 0.3f, 10, 1f)
+              .OnComplete(() =>
+                      {
 
-                    player.transform.localScale = new Vector3(direction * Mathf.Abs(originalScale.x),
-                        originalScale.y, originalScale.z);
-
-                    isPunchOver = true;
-
-                });
-
+                          Vector3 scale = player.transform.localScale;
+                          player.transform.localScale = new Vector3(
+                            player.facingDirection * Mathf.Abs(originalScale.x), 
+                            originalScale.y,
+                            originalScale.z
+                        );
+                          isPunchOver = true;
+                      });
             player.enableGroundCheck = false;
             player.enableRoofCheck = false;
 
@@ -94,7 +95,7 @@ public class PowerUp : MonoBehaviour
 
             if (spriteRenderer == null || player == null)
             {
-                yield break; 
+                yield break;
             }
             else
             {
@@ -115,7 +116,6 @@ public class PowerUp : MonoBehaviour
         }
 
         //Back to original settings
-        player.transform.localScale = originalScale;
         player.moveSpeed = originalSpeed;
         player.attackPower = originalPower;
         player.gameObject.layer = originalLayer;

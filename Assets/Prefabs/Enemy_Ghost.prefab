@@ -196,6 +196,7 @@ Transform:
   - {fileID: 432576936718107008}
   - {fileID: 3943353499214578780}
   - {fileID: 1895791273333144695}
+  - {fileID: 3412559087759312991}
   m_Father: {fileID: 432576938181893546}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -518,6 +519,97 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
+--- !u!1 &647085941684298400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3412559087759312991}
+  - component: {fileID: 6317031828351578285}
+  - component: {fileID: 8874263979804764638}
+  m_Layer: 6
+  m_Name: HeadDamageTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3412559087759312991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647085941684298400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.052, y: 0.399, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 432576937875816993}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6317031828351578285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647085941684298400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6249348e19535c4499d49585dd0675d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!60 &8874263979804764638
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647085941684298400}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.27778697, y: 0.0076439977}
+      - {x: 0.03490889, y: 0.0004415214}
+      - {x: 0.020210385, y: 0.029421717}
+      - {x: -0.24313486, y: 0.037988037}
+      - {x: -0.32812172, y: -0.016825885}
+      - {x: -0.37207198, y: -0.06890702}
+      - {x: -0.37869012, y: -0.093440294}
+      - {x: -0.31694734, y: -0.13273305}
+      - {x: -0.18490815, y: -0.07944125}
+      - {x: 0.039526522, y: -0.08386773}
+      - {x: 0.20991564, y: -0.14694571}
+      - {x: 0.2763183, y: -0.14222881}
+      - {x: 0.31502593, y: -0.16302185}
+      - {x: 0.4323796, y: -0.1865114}
+      - {x: 0.46739042, y: -0.16041483}
+      - {x: 0.42576373, y: -0.12636673}
+      - {x: 0.40379083, y: -0.10225701}
+      - {x: 0.38079882, y: -0.07314548}
+      - {x: 0.3374375, y: -0.032532066}
+      - {x: 0.2809806, y: -0.031560898}
+  m_UseDelaunayMesh: 0
 --- !u!1 &3163742434490835426
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1895791273333144695}
   - component: {fileID: 5054566432613189197}
+  - component: {fileID: 3532954508312144393}
   m_Layer: 6
   m_Name: HeadDamageCollider
   m_TagString: HeadDamage
@@ -627,3 +720,16 @@ PolygonCollider2D:
       - {x: 0.3374375, y: -0.032532066}
       - {x: 0.2809806, y: -0.031560898}
   m_UseDelaunayMesh: 0
+--- !u!114 &3532954508312144393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4724506223317639537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976d3209a42f1642a1f9f284caf4d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 1
